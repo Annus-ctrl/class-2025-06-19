@@ -1,0 +1,32 @@
+---
+title: "Economic Connectedness"
+format: html
+---
+
+
+```{r}
+library(tidyverse)
+library(primer.data)
+```
+```{r}
+# Simulate some example data
+set.seed(123)
+df <- tibble(
+  population = 10^runif(1000, 3, 7),  # Population from 1,000 to 10 million
+  economic_connectedness = rnorm(1000, mean = 0.8, sd = 0.2)
+)
+
+ ggplot(df, aes(x = population, y = economic_connectedness)) +
+  geom_point(color = "black", alpha = 0.7) +
+  geom_smooth(method = "lm", color = "blue", se = FALSE, formula = y ~ x) +
+  scale_x_log10() +
+  labs(
+    title = "US County Populations versus Economic Connectedness",
+    subtitle = "Population size does not matter to EC",
+    x = "Population",
+    y = "Economic Connectedness",
+    caption = "Opportunity Insights"
+  ) +
+  theme_minimal()
+
+```
