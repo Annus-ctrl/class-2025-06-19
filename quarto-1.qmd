@@ -7,9 +7,11 @@ execute:
 
 
 ```{r}
+#| message: false
 library(tidyverse)
 library(primer.data)
 ```
+Despite a wide range of population sizes, the economic connectedness values are spread fairly evenly and do not show a strong upward or downward trend. The flat regression line visually supports the claim in the subtitle: population size is not strongly correlated with economic connectedness.
 ```{r}
 # Simulate some example data
 set.seed(123)
@@ -31,4 +33,26 @@ df <- tibble(
   ) +
   theme_minimal()
 
+```
+
+The histogram shows a strong right skew in population distribution:
+
+1- Most counties have small populations, clustering on the lower end of the log scale.
+
+2- A small number of counties have very large populations, visible as bars on the far right.
+
+3- The log scale helps reveal this skew by compressing the higher values and spreading out the lower values for better visualization.
+
+This distribution suggests that while a few urban counties are highly populated, the vast majority of U.S. counties are relatively small in population — a typical feature of population data.
+```{r}
+connectedness |> 
+  drop_na() |> 
+  ggplot(aes(x = population)) +
+    geom_histogram(bins = 100) +
+    scale_x_log10(labels = scales::comma_format()) +
+    labs(title = "US County Populations in 2018",
+         subtitle = "Populations are highly skewed",
+         x = "Population",
+         y = "Number of Counties",
+         caption = "Opportunity Insights")
 ```
